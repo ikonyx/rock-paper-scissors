@@ -1,0 +1,88 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#playerSelection {
+    margin: 50px;
+}
+
+#results {
+    display:flex;
+    margin: 50px;
+}
+
+#cpu, #player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+    gap: 5px;
+    font-size: 18px;
+}
+
+.btn  {
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.selection {
+    width: 150px;
+    height: 150px;
+}
+
+.btn > img {
+    width: 100px;
+    height: 100px;
+}
+
+button:hover {
+    transform: scale(1.1);
+    transition: 0.4;
+}
+
+#gif {
+    
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+    
+
+}
+
+#gif > img {
+    display: block;
+    height: 50%;
+    width: 50%;
+    margin:auto;
+}
+
+#refreshBtn {
+    display: none;
+    position: absolute;
+    margin-top: 500px;
+    padding: 5px 25px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: rgb(255, 248, 189);
+
+}
+
+#refreshBtn:hover {
+    background-color: rgb(255, 234, 113);
+}
+
+
+
+

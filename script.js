@@ -5,86 +5,136 @@ function getComputerChoice() {
     return computer;
 }
 
+let humanScore=0;
+let computerScore=0;
 
+const container = document.querySelector('#playerSelection');
 
-let text;
-function getHumanChoice() {
+const rock = document.querySelector("#btnRock");
+const paper = document.querySelector("#btnPaper");
+const scissors = document.querySelector("#btnScissors");
+
+container.appendChild(rock); 
+container.appendChild(paper);
+container.appendChild(scissors);
+
+rock.addEventListener("click", () => {
+    playRound('rock', getComputerChoice());
+});
+paper.addEventListener("click", () => {
+    playRound('paper', getComputerChoice());
+});
+scissors.addEventListener("click", () => {
+    playRound('scissors', getComputerChoice());
+});
+
+const results = document.querySelector("#results");
+
+const player = document.createElement('div');
+player.id = 'player';
+const cpu = document.createElement('div');
+cpu.id ='cpu';
+
+const playerScore = document.createElement('div');
+playerScore.textContent = ("You: " + humanScore + "/5");
+const playerChoice = document.createElement('img');
+playerChoice.className = "selection";
     
-    let human = prompt("Make your choice!").toLowerCase();
-
-    switch(human) {
-        case "rock":
-            return ("rock");
-            break;
-        case "paper":
-            return ("paper");
-            break;
-        case "scissors":
-            return ("scissors");
-            break;
-        default:
-            return ("Rock, Paper or scissors?");
-}
-}
+const cpuScore = document.createElement('div');
+cpuScore.textContent = ("Computer: " + computerScore + "/5");
+const cpuChoice = document.createElement('img');
+cpuChoice.className = "selection";
 
 
-function playGame() {
+player.appendChild(playerScore);
+player.appendChild(playerChoice);
 
-    let humanScore=0;
-    let computerScore=0;
+cpu.appendChild(cpuScore);
+cpu.appendChild(cpuChoice);
 
-    function playRound(humanChoice, computerChoice) {
+results.appendChild(player);
+results.appendChild(cpu);
 
-        if (humanChoice === "rock" && computerChoice === "paper") {
-            console.log("You lose this round! Paper beats Rock");
-            computerScore++;
+
+playerChoice.src = 'images/rock.png';
+cpuChoice.src = 'images/rock.png';
     
-        } else if (humanChoice === "scissors" && computerChoice === "rock") {
-            console.log("You lose this round! Rock beats Scissors");
-            computerScore++;
-    
-        } else if (humanChoice === "paper" && computerChoice === "scissors") {
-            console.log("You lose this round! Scissors beats Paper");
-            computerScore++;
-    
-        } else if (humanChoice === "paper" && computerChoice === "rock") {
-            console.log("You win this round! Paper beats Rock");
-            humanScore++;
-    
-        } else if (humanChoice === "rock" && computerChoice === "scissors") {
-            console.log("You win this round! Rock beats Scissors");
-            humanScore++;
-    
-        } else if (humanChoice === "scissors" && computerChoice === "paper") {
-            console.log("You win this round! Scissors beats Paper");
-            humanScore++;
-    
-        } else if (humanChoice === "scissors" && computerChoice === "scissors" 
-            || humanChoice === "rock" && computerChoice === "rock" 
-            || humanChoice === "paper" && computerChoice === "paper") {
-               console.log("It's a TIE!");
-        }
-    }
 
+function playRound(humanChoice, computerChoice) {
 
-    for (let i=0; i<5; i++) {
+    if (humanChoice === "rock" && computerChoice === "paper") {
+        computerScore++;
+        playerChoice.src = 'images/rock.png';
+        cpuChoice.src = 'images/paper.png';
         
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
+    
+    } else if (humanChoice === "scissors" && computerChoice === "rock") {
+        computerScore++;
+        playerChoice.src = 'images/scissors.png';
+        cpuChoice.src = 'images/rock.png';
+        
+    
+    } else if (humanChoice === "paper" && computerChoice === "scissors") {
+        computerScore++;
+        playerChoice.src = 'images/paper.png';
+        cpuChoice.src = 'images/scissors.png';
+        
+    } else if (humanChoice === "paper" && computerChoice === "rock") {
+        humanScore++;
+        playerChoice.src = 'images/paper.png';
+        cpuChoice.src = 'images/rock.png';
 
-        playRound(humanSelection, computerSelection);
-        console.log("Your Score: " + humanScore);
-        console.log("Computer's Score: " + computerScore);
+    } else if (humanChoice === "rock" && computerChoice === "scissors") {
+        humanScore++;
+        playerChoice.src = 'images/rock.png';
+        cpuChoice.src = 'images/scissors.png';
+
+    } else if (humanChoice === "scissors" && computerChoice === "paper") {   
+        humanScore++;
+        playerChoice.src = 'images/scissors.png';
+        cpuChoice.src = 'images/paper.png';
+
+    } else if (humanChoice === computerChoice) {   
+        playerChoice.src = ('images/'+humanChoice+'.png');
+        cpuChoice.src = ('images/'+humanChoice+'.png');
+    } 
+    
+    cpuScore.textContent = ("Computer: " + computerScore + "/5");
+    playerScore.textContent = ("You: " + humanScore + "/5");
+
+
+    if (humanScore == 5) {
+        
+
+        const won = document.createElement('img');
+        const gif = document.querySelector("#gif");
+        gif.appendChild(won);
+        
+        won.src = 'images/won.gif';
+        
+        
+        const jsConfetti = new JSConfetti();
+        jsConfetti.addConfetti({
+            emojis: ['🎉', '⚡️', '💥', '✨', '🥳', '🎊'], emojiSize: 50,
+        }).then(() => jsConfetti.addConfetti());
     }
     
-    if (humanScore> computerScore) {
-        console.log("You Won the Game!");
-    } else if (humanScore < computerScore) {
-        console.log("You Lost the Game. Play again?");
-    } else {
-        console.log("It's a Tie! Play again?")
+    else if (computerScore == 5) {
+    
+        const lost = document.createElement('img');
+        const gif = document.querySelector("#gif");
+        gif.appendChild(lost);
+        lost.src = 'images/lost.gif';
     }
 
-}
+    if (humanScore == 5 || computerScore == 5) {
+        const refreshBtn = document.querySelector('#refreshBtn');
+        refreshBtn.style.display = 'block';
+        gif.style.display = 'block';
 
-playGame();
+        function refreshPage() {
+        window.location.reload();
+        }
+        refreshBtn.addEventListener("click", refreshPage);
+    }
+    }

@@ -1,8 +1,8 @@
-let computer;
 function getComputerChoice() {
+    let computerChoice;
     const choices =  ['rock', 'paper', 'scissors'];
-    computer = choices[Math.floor(Math.random()*choices.length)];
-    return computer;
+    computerChoice = choices[Math.floor(Math.random()*choices.length)];
+    return computerChoice;
 }
 
 let humanScore=0;
@@ -94,7 +94,7 @@ function playRound(humanChoice, computerChoice) {
         playerChoice.src = 'images/scissors.png';
         cpuChoice.src = 'images/paper.png';
 
-    } else if (humanChoice === computerChoice) {   
+    } else {   
         playerChoice.src = ('images/'+humanChoice+'.png');
         cpuChoice.src = ('images/'+humanChoice+'.png');
     } 
@@ -102,39 +102,44 @@ function playRound(humanChoice, computerChoice) {
     cpuScore.textContent = ("Computer: " + computerScore + "/5");
     playerScore.textContent = ("You: " + humanScore + "/5");
 
-
-    if (humanScore == 5) {
-        
-
-        const won = document.createElement('img');
-        const gif = document.querySelector("#gif");
-        gif.appendChild(won);
-        
-        won.src = 'images/won.gif';
-        
-        
-        const jsConfetti = new JSConfetti();
-        jsConfetti.addConfetti({
-            emojis: ['🎉', '⚡️', '💥', '✨', '🥳', '🎊'], emojiSize: 50,
-        }).then(() => jsConfetti.addConfetti());
-    }
+    function checkWinner() {
+        if (humanScore == 5 || computerScore == 5) {
+            const refreshBtn = document.querySelector('#refreshBtn');
+            refreshBtn.style.display = 'block';
+            gif.style.display = 'block';
     
-    else if (computerScore == 5) {
-    
-        const lost = document.createElement('img');
-        const gif = document.querySelector("#gif");
-        gif.appendChild(lost);
-        lost.src = 'images/lost.gif';
-    }
-
-    if (humanScore == 5 || computerScore == 5) {
-        const refreshBtn = document.querySelector('#refreshBtn');
-        refreshBtn.style.display = 'block';
-        gif.style.display = 'block';
-
-        function refreshPage() {
-        window.location.reload();
+            function refreshPage() {
+            window.location.reload();
+            }
+            refreshBtn.addEventListener("click", refreshPage);
         }
-        refreshBtn.addEventListener("click", refreshPage);
+
+        if (humanScore == 5) {
+        
+
+            const won = document.createElement('img');
+            const gif = document.querySelector("#gif");
+            gif.appendChild(won);
+        
+            won.src = 'images/won.gif';
+        
+        
+             const jsConfetti = new JSConfetti();
+            jsConfetti.addConfetti({
+                emojis: ['🎉', '⚡️', '💥', '✨', '🥳', '🎊'], emojiSize: 50,
+            }).then(() => jsConfetti.addConfetti());
+        }
+    
+        else if (computerScore == 5) {
+    
+            const lost = document.createElement('img');
+            const gif = document.querySelector("#gif");
+            gif.appendChild(lost);
+            lost.src = 'images/lost.gif';
+        }
+
+    
     }
-    }
+    
+    checkWinner();
+}
